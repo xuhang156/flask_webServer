@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<head>
+    <title>简易登录</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+  </head>
+<body>
+    <div class="container">
+        <div class="jumbotron" id="jumbotron">
+            <h1>每日情况汇总</h1>
+            <h4 id="username" name="username">徐航</h4>
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#">今日统计次数 <span class="badge">{{ number }}</span></a></li>
+            </ul>
+        </div>
+
+    </div>
+   
+
+    <!-- 文本内容输入框 -->
+    <div class="container">
+        <form role="form" method="post" id="formDescribe" name="formDescribe">
+            <div class=" form-group has-success">
+                <label class="control-label" for="inputSuccess">当前地理位置</label>
+                <input type="text" class="form-control" id="inputLocation" name="inputLocations">
+            </div>
+            <div class=" form-group">
+                <label class="control-label" for="inputSuccess">状态描述</label>
+                <textarea class="form-control" rows="3" id="inputDescribe" name="inputDescribes"></textarea>
+            </div>
+            <div class=" form-group" style="text-align:right">
+                <button type="button" class="control btn btn-primary btn-lg" data-toggle="tooltip" data-placement="left" title="左侧的 Tooltip" onclick="checkUser();" >
+                    <span class="glyphicon glyphicon-ok"></span> 提交
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- 统计表格，用于展示每天的情况 -->
+    <div class="container table-responsive" id="demo">          
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>时间</th>
+              <th>位置</th>
+              <th>描述</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2019年11月3日</td>
+              <td>北京海淀</td>
+              <td>今天心情真好</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Debbie Dallas</td>
+              <td>Houston Street</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>John Doe</td>
+              <td>Madison Street</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <!-- 功能块：动态插入图片元素 -->
+    <!-- {% block content %} -->
+    <!-- <img src="{{ url_for('static', filename='img/test.jpg') }}" class="img-responsive img-circle" alt="Cinque Terre" width="304" height="236" /> -->
+    <!-- <img src="data:;base64,{{ img }}" class="img-responsive img-circle" alt="Cinque Terre" width="304" height="236" /> -->
+    <!-- {% endblock %} -->
+
+
+    <!-- 功能块：测试折叠是否可行：测试成功 -->
+    <!-- <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#demo">
+        <span class="glyphicon glyphicon-user"></span> User
+    </button> -->
+
+
+  
+</body>
+    
+<script>
+    function checkUser()
+    {
+        var location = document.getElementById("inputLocation").value;
+        var describe = document.getElementById("inputDescribe").value;
+        // var Ohs      = document.getElementById("jumbotron");
+        // var text=Ohs.children[1].innerText;
+         //formData.append("username",text);
+        if(describe == ""  )
+            return false;
+        var form = document.getElementById("formDescribe");
+        var formData = new FormData(form);
+       
+        var d = new Date();
+        formData.append("submitTime",d.getTime());
+
+
+        var objData = {};
+        for (var entry of formData.entries()){objData[entry[0]] = entry[1];}
+        var xhr = new XMLHttpRequest();
+        xhr.open("post","load");
+        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.send(JSON.stringify(objData));
+        
+        return true;
+        
+        // var myform=$('#formDescribe'); //得到form对象
+        // var tmpInput=$("<input type='text' name='blogArticleForm.articleContent'/>");
+        // tmpInput.attr("value", myUeditor.window.getContentInsideBody());
+        // myform.append(tmpInput);
+        // var tmpInput=$("<input type='text' name='username'/>");
+        // tmpInput.attr("value", "xuhang");
+        // document.getElementById("formDescribe").append(tmpInput);
+        // document.getElementById("formDescribe").append(username);
+        // document.getElementById("formDescribe").submit();
+
+    }
+</script>
+</html>
