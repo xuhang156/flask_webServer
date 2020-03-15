@@ -1,8 +1,9 @@
 from flask import Flask,url_for,request,render_template
 import os
 import io
+import addMessage
 app = Flask(__name__)
-
+userNumber={}
 @app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -16,7 +17,13 @@ def writeEdit():
     if request.method == 'POST':
         userdata= request.json
         print(userdata)
-        return "post html"
+        username = userdata['username']
+        if userNumber.get(username) == None:
+            userNumber[username] = 0;
+        addMessage.addMessage(userdata)
+        userNumber[username] = userNumber[username] +1;
+        print("即将返回。。。。。")
+        return render_template('load.html',number=userNumber[username])
     elif request.method == 'GET':
         return render_template('load.html',number=number)
         #return render_template('load.html',img=img)

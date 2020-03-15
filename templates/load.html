@@ -88,29 +88,38 @@
 </body>
     
 <script>
+    var xhr = new XMLHttpRequest();
+    function zswFun()
+    {    
+        if(xhr.readyState == 4 && xhr.status == 200)
+        {    
+          var b = xhr.responseText;    
+          alert("上传成功");    
+        }           
+    }  
     function checkUser()
     {
         var location = document.getElementById("inputLocation").value;
         var describe = document.getElementById("inputDescribe").value;
-        // var Ohs      = document.getElementById("jumbotron");
-        // var text=Ohs.children[1].innerText;
-         //formData.append("username",text);
+        var Ohs      = document.getElementById("jumbotron");
+        var text     = Ohs.children[1].innerText;
+      
         if(describe == ""  )
             return false;
         var form = document.getElementById("formDescribe");
         var formData = new FormData(form);
-       
+        formData.append("username",text);
         var d = new Date();
         formData.append("submitTime",d.getTime());
 
 
         var objData = {};
         for (var entry of formData.entries()){objData[entry[0]] = entry[1];}
-        var xhr = new XMLHttpRequest();
+        
+        xhr.onreadystatechange = zswFun;  
         xhr.open("post","load");
         xhr.setRequestHeader("Content-Type","application/json");
         xhr.send(JSON.stringify(objData));
-        
         return true;
         
         // var myform=$('#formDescribe'); //得到form对象
