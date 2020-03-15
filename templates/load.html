@@ -67,23 +67,7 @@
               <th>描述</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>2019年11月3日</td>
-              <td>北京海淀</td>
-              <td>今天心情真好</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Debbie Dallas</td>
-              <td>Houston Street</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>John Doe</td>
-              <td>Madison Street</td>
-            </tr>
-          </tbody>
+          <tbody id="tables"></tbody>
         </table>
     </div>
 
@@ -104,6 +88,12 @@
 </body>
 <script>
     var xhr = new XMLHttpRequest();
+
+    function addTableMessage(time,location,message)
+    {
+      var tablestr = '<tr><td>2019年11月3日</td><td>北京海淀</td><td>今天心情真好</td></tr>';
+      $("#tables").append(tablestr);
+    }
     //自动关闭消息框
     function removeHtml(dom) {
     setTimeout(function () {
@@ -120,7 +110,7 @@
           var b = xhr.responseText
           var span= document.getElementById("num");
           span.innerHTML = b;
-          var showMsg = '  <div id="myAlert" class="alert alert-success" ><a href="#" class="close" data-dismiss="alert">&times;</a><strong>上传成功！</strong> </div>';
+          var showMsg = '<div id="myAlert" class="alert alert-success" ><a href="#" class="close" data-dismiss="alert">&times;</a><strong>上传成功！</strong> </div>';
           $("#messageDiv").append(showMsg);   
           removeHtml($("#myAlert"))
         }           
@@ -129,6 +119,7 @@
     {
       var h4= document.getElementsByTagName("h4")[0];
       h4.innerHTML = document.getElementById("changeUsers").value;
+      // addTableMessage("1","2","4")
     }
     function checkUser()
     {
