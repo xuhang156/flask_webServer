@@ -6,15 +6,31 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
   </head>
 <body>
+  <div id="messageDiv"></div>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+          <a class="navbar-brand" href="#">珊瑚海</a>
+      </div>
+      <div>
+          <form class="navbar-form navbar-right">
+              <div class="form-group">
+                  <input type="text" class="form-control" id="changeUsers" placeholder="输入用户名">
+              </div>
+              <button type="button" class="btn btn-default" onclick="changeUser();">更改用户</button>
+          </form>
+      </div>
+    </div>
+  </nav>
+
     <div class="container">
         <div class="jumbotron" id="jumbotron">
             <h1>每日情况汇总</h1>
-            <h4 id="username" name="username">徐航</h4>
+            <h4 id="username" name="username">未知用户</h4>
             <ul class="nav nav-pills">
-                <li class="active"><a href="#">今日统计次数 <span class="badge">{{ number }}</span></a></li>
+                <li class="active"><a href="#">今日统计次数 <span class="badge" id="num">{{ number }}</span></a></li>
             </ul>
         </div>
 
@@ -86,17 +102,34 @@
 
   
 </body>
-    
 <script>
     var xhr = new XMLHttpRequest();
+    //自动关闭消息框
+    function removeHtml(dom) {
+    setTimeout(function () {
+      dom.slideUp(300, function () {
+        dom.remove();
+      });
+    }, 1 * 1000);
+    }
+
     function zswFun()
     {    
         if(xhr.readyState == 4 && xhr.status == 200)
         {    
-          var b = xhr.responseText;    
-          alert("上传成功");    
+          var b = xhr.responseText
+          var span= document.getElementById("num");
+          span.innerHTML = b;
+          var showMsg = '  <div id="myAlert" class="alert alert-success" ><a href="#" class="close" data-dismiss="alert">&times;</a><strong>上传成功！</strong> </div>';
+          $("#messageDiv").append(showMsg);   
+          removeHtml($("#myAlert"))
         }           
     }  
+    function changeUser()
+    {
+      var h4= document.getElementsByTagName("h4")[0];
+      h4.innerHTML = document.getElementById("changeUsers").value;
+    }
     function checkUser()
     {
         var location = document.getElementById("inputLocation").value;
@@ -120,7 +153,7 @@
         xhr.open("post","load");
         xhr.setRequestHeader("Content-Type","application/json");
         xhr.send(JSON.stringify(objData));
-        return true;
+        return false;
         
         // var myform=$('#formDescribe'); //得到form对象
         // var tmpInput=$("<input type='text' name='blogArticleForm.articleContent'/>");
